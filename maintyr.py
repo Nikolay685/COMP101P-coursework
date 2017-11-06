@@ -8,11 +8,8 @@ from matplotlib import style
 style.use("fivethirtyeight") # Style of the graph might change it later
 
 # Defining some starting varibales
-    # Creating the window
 fig = plt.figure()
 fig.canvas.set_window_title('Arduino')
-
-    # Creating the axis and empty graph
 fig.suptitle('bold figure suptitle', fontsize=14, fontweight='bold')
 ax1 = fig.add_subplot(1,1,1)
 plt.subplots_adjust(bottom=0.1)
@@ -21,8 +18,6 @@ ax1.set_xlabel("Counter")
 ax1.set_ylabel("Light")
 ax1.set_ylim(0, 1000)
 ax1.set_xlim(datetime.datetime.now(),datetime.datetime.now() + datetime.timedelta(seconds=6))
-
-    # Formating the x-axis to look buttiful
 fig.autofmt_xdate()
 myFmt = mdates.DateFormatter('%H:%M:%S')
 plt.gca().xaxis.set_major_formatter(myFmt)

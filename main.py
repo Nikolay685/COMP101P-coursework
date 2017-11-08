@@ -4,6 +4,7 @@ import datetime # Get the time
 import matplotlib.pyplot as plt # Plot the graph
 import matplotlib.animation as animation # Animate the graph
 from matplotlib import style
+from sys import platform
 
 style.use("fivethirtyeight") # Style of the graph might change it later
 
@@ -32,8 +33,14 @@ open("example.txt", "w+").close() # Empties file and creates if does not exist
 
 def getInput():
     """ Gets raw integer input from arduino """
-    ser = serial.Serial("/dev/ttyACM1",9600)
+    if platform == "linux" or platform == "linux2":
+        ser = serial.Serial("/dev/ttyACM0",9600)
+    elif platform == "darwin":
+        return 1
+    elif platform == "win32" or platform == "cygwin":
+        return 2
     value = ser.readline()
+    #print(int(value))
     return int(value)
 
 def updateValues(ardValue):

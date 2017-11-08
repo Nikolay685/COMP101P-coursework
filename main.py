@@ -22,12 +22,13 @@ ax1.set_ylabel("Light")
 ax1.set_ylim(0, 1000)
 ax1.set_xlim(datetime.datetime.now(),datetime.datetime.now() + datetime.timedelta(seconds=6))
 
+
     # Formating the x-axis to look buttiful
 fig.autofmt_xdate()
 myFmt = mdates.DateFormatter('%H:%M:%S')
 plt.gca().xaxis.set_major_formatter(myFmt)
 
-open("example.txt", "w+").close() # Empties list
+open("example.txt", "w+").close() # Empties file and creates if does not exist
 
 def getInput():
     """ Gets raw integer input from arduino """
@@ -38,7 +39,7 @@ def getInput():
 def updateValues(ardValue):
     """ Adds new values to the text file"""
     data = open("example.txt", "a+")
-    data.write((str(ardValue)) + "\n")
+    data.write(str(datetime.datetime.now() + datetime.timedelta(seconds=0)) + "," + (str(ardValue)) + "\n")
     data.close()
 
 def animate(i):
@@ -49,39 +50,45 @@ def animate(i):
     xs = []
     ys = []
 
+    # Populating the the y and x arrays with data
     for line in lines:
         if len(line) > 1:
-            ys.append(line)
+            x,y = line.split(",")
+            dx = datetime.datetime.strptime(x,"%Y-%m-%d %H:%M:%S.%f")
+            xs.append(dx)
+            ys.append(y)
+
+    # Clearing, drawing and formating the graph //// Might chnage it into a function
     ax1.clear()
-    ax1.plot_date(xs, ys)
-    fig.autofmt_xdate()
-    updateValues(getInput())
     updateAllAxis()
+    ax1.plot(xs, ys)
+    fig.autofmt_xdate()
+    myFmt = mdates.DateFormatter('%H:%M:%S')
+    plt.gca().xaxis.set_major_formatter(myFmt)
+    updateValues(getInput())
+    
 
 def updateAllAxis():
     """ As the axis are being cleared some values needs to be redeffined
     this function redeffines those values"""
     ax1.set_ylim(0, 1000)
-    ax1.set_xlim(datetime.datetime.now(),datetime.datetime.now() + datetime.timedelta(seconds=6))
+    ax1.set_xlim(datetime.datetime.now() - datetime.timedelta(seconds=6),datetime.datetime.now())
     ax1.set_xlabel("Counter")
     ax1.set_ylabel("Light")
 
     num_lines = sum(1 for line in open('example.txt'))
+
+    # Deleting first value in the txt to produce scrolling effect
     if num_lines == 7:
         with open('example.txt', 'r') as fin:
             data = fin.read().splitlines(True)
         with open('example.txt', 'w') as fout:
             fout.writelines(data[1:])
-
-
-def updateXaxis():
-    num_lines = sum(1 for line in open('example.txt'))
-    if num_lines < 7:
-        x = [datetime.datetime.now() + datetime.timedelta(hours=i) for i in range(7)]
-        return x
+    
 
 
 def main():
+    """ Plots the graph and calls the animation"""
     ani = animation.FuncAnimation(fig, animate, interval=1000)
     plt.show()
     

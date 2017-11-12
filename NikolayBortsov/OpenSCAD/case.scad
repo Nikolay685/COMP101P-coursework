@@ -12,12 +12,12 @@ translate([100,0,0]){ // top of the case
                 translate([2,2,2]){
                     cube(size = [w+(2*wall),d+(2*wall),10]);
                 }
-                translate([w+wall-1,23,0]){
-                    cube(size = [4,50, 3]);
+                translate([w+wall-1,23,-1]){
+                    cube(size = [4,50, 5]);
                 }
             }
-            translate([wall+1,33,0]){
-                cube(size = [4,40, 3]);
+            translate([wall+1,33,-1]){
+                cube(size = [4,40, 5]);
             }
         }
     }
@@ -130,9 +130,9 @@ translate([0,-75,0]){ // Cable manager
             translate([-13,75,2]){
                 cube(size = [13,75,13]);
             }
-            translate([-13,150,15]){
+            translate([-13,151,15]){
                 rotate([90,0,0]){
-                    cylinder(h = 75, r1 = 13, r2 = 13, $fn = 60);
+                    cylinder(h = 80, r1 = 13, r2 = 13, $fn = 60);
                 }
             }
         }   

@@ -15,13 +15,13 @@ fig = plt.figure()
 fig.canvas.set_window_title('Arduino')
 
     # Creating the axis and empty graph
-fig.suptitle('bold figure suptitle', fontsize=14, fontweight='bold')
+fig.suptitle('Temperature and Light intensity graph', fontsize=14, fontweight='bold')
 ax1 = fig.add_subplot(1,1,1)
 plt.subplots_adjust(bottom=0.1)
 plt.subplots_adjust(left=0.11)
 plt.subplots_adjust(right=0.89)
 ax1.set_xlabel("Time")
-ax1.set_ylabel("LDR Value")
+ax1.set_ylabel("Light Intensity")
 ax1.set_ylim(0, 1000)
 ax1.set_xlim(datetime.datetime.now(),datetime.datetime.now() + datetime.timedelta(seconds=6))
 
@@ -96,7 +96,7 @@ def updateAllAxis():
     ax1.set_ylim(0, 1000)
     ax1.set_xlim(datetime.datetime.now() - datetime.timedelta(seconds=60),datetime.datetime.now())
     ax1.set_xlabel("Time")
-    ax1.set_ylabel("LDR Value")
+    ax1.set_ylabel("Light Intensity")
     ax2.set_ylabel('Temperature in C', color='r')
     ax2.set_ylim(-10, 40)    
 
